@@ -37,7 +37,7 @@ The TreeLSTM part may looks complicated, but fortunately it can be efficiently i
 ## Install Package Dependency
 
 The code depends on PyTorch, **dgl** for TreeLSTM,
-**nltk** and **networkx** for tree loading,
+**nltk**, **torchtext** and **networkx** for tree loading,
  **nmtlab** for Transformer encoder and **horovod** for multi-gpu training.
 
 We recommend installing with conda.
@@ -81,7 +81,7 @@ HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_NCCL_HOME=/usr/local/nccl pip install horovod
 
 Check horovod by running
 
--5. Run `pip install nltk networkx nmtlab`
+-5. Run `pip install nltk networkx torchtext nmtlab`
 
 -6. Clone this github repo, run 
 ```
@@ -98,10 +98,10 @@ mkdir mydata
 cd mydata
 ```
 
--2. Download pre-processed WMT14 dataset from https://drive.google.com/file/d/1QI_tEs7xQLgwCbvkbpHynIaBvfFCccPz/view
-
--3. Uncompress the dataset in side `mydata` folder
+-2. Download pre-processed WMT14 dataset from https://drive.google.com/file/d/1QI_tEs7xQLgwCbvkbpHynIaBvfFCccPz/view .
+After download, uncompress the dataset in side `mydata` folder.
 ```
+./gdown.pl https://drive.google.com/file/d/1QI_tEs7xQLgwCbvkbpHynIaBvfFCccPz/view tree2code_wmt14.tgz
 tar xzvf tree2code_wmt14.tgz
 ```
 
@@ -171,6 +171,12 @@ If you go to `mydata/tree2code_codebits-8_dtok-wmt14_limit_datapoints-100000_lim
 > \<c247\> \<eoc\> ▁Construction ▁and ▁repair ▁of ▁highway s ▁and ... 
 
 ## Result files
+
+You can also find all the result files here:
+
+https://drive.google.com/drive/folders/1w6bo30D3VaoIoVAv6fTFbxfMNtDJwczr
+
+The file `tree2code_codebits-8_dtok-wmt14_limit_datapoints-100000_limit_tree_depth-2.tgt` is the target-side training data with prefixing codes.
 
 ## Todos
 

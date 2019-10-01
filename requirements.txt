@@ -3,3 +3,4 @@ dgl
 torch
 networkx
 nltk
+torchtext
