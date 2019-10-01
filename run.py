@@ -114,7 +114,7 @@ if OPTS.export_code or OPTS.all:
     import torch
     assert os.path.exists(OPTS.model_path)
     autoencoder.load(OPTS.model_path)
-    out_path = "{}/{}.codes".format(os.getenv("HOME"), os.path.basename(OPTS.model_path).split(".")[0])
+    out_path = "{}/{}.codes".format(DATA_ROOT, os.path.basename(OPTS.model_path).split(".")[0])
     if is_root_node():
         autoencoder.train(False)
         if torch.cuda.is_available():
@@ -145,8 +145,8 @@ if OPTS.export_code or OPTS.all:
 
 if OPTS.make_target or OPTS.all:
     if is_root_node():
-        export_path = "{}/{}.codes".format(os.getenv("HOME"), os.path.basename(OPTS.model_path).split(".")[0])
-        out_path = "{}/{}.tgt".format(os.getenv("HOME"), os.path.basename(OPTS.model_path).split(".")[0])
+        export_path = "{}/{}.codes".format(DATA_ROOT, os.path.basename(OPTS.model_path).split(".")[0])
+        out_path = "{}/{}.tgt".format(DATA_ROOT, os.path.basename(OPTS.model_path).split(".")[0])
         print("out path", out_path)
         export_map = {}
         for line in open(export_path):
@@ -179,7 +179,7 @@ if OPTS.make_oracle_codes:
         print("loading", OPTS.model_path)
         assert os.path.exists(OPTS.model_path)
         autoencoder.load(OPTS.model_path)
-        out_path = "{}/{}.test.export".format(os.getenv("HOME"),
+        out_path = "{}/{}.test.export".format(DATA_ROOT,
                                                                    os.path.basename(OPTS.model_path).split(".")[0])
         autoencoder.train(False)
         if torch.cuda.is_available():

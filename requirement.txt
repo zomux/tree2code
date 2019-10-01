@@ -1,1 +1,4 @@
-
+nmtlab
+dgl
+torch
+horovod
