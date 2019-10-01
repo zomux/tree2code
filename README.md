@@ -82,7 +82,7 @@ python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_l
 
 -2. (Multi-GPU) Run this command if you have 4 GPUs:
 ```
-horovodrun -np 4 -H localhost:4 python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --train
+horovodrun -np 8 -H localhost:8 python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --train
 ```
 
 There are some options you can use for training the model.
@@ -95,20 +95,50 @@ You can increase the depth and monitor the `label_accuracy` to ensure the recons
 ``--opt_limit_datapoints`` limit the number of training datapoints to be used on each GPU as training on the whole dataset is time-consuming.
 In our experiments, we train the model with 8 GPUs, and limit the training datapoints to 100k on each GPU, which results in an effective training dataset of 800k samples.
 
+The script will train the model for 20 epochs, and you will see the increasing performance like this:
+```
+[nmtlab] Training TreeAutoEncoder with 74 parameters
+[nmtlab] with Adagrad and SimpleScheduler
+[nmtlab] Training data has 773 batches
+[nmtlab] Running with 8 GPUs (Tesla V100-SXM2-32GB)
+[valid] loss=6.62 label_accuracy=0.00 * (epoch 1, step 1)
+[valid] loss=1.43 label_accuracy=0.54 * (epoch 1, step 194)
+...
+[nmtlab] Ending epoch 1, spent 5 minutes
+...
+[valid] loss=0.50 label_accuracy=0.85 * (epoch 7, step 4832)
+...
+```
+
 ## Export the syntactic codes for all training samples
 
-Run
+Once we obtain the syntactic coding model, we need to get the syntactic codes for all training samples. Just run this command:
+
 ```
 python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --export_code
 ```
 
+It's going to take time as the dataset is large. Once it's done, if you go to `mydata/tree2code_codebits-8_dtok-wmt14_limit_datapoints-100000_limit_tree_depth-2.codes`,
+you will see things like this:
+
+> ▁Der ▁Bau ▁und ▁die ▁Reparatur ▁der ▁Auto straßen ...   (ROOT (NP (NP (NN Construction) (CC and) (NN repair)) (PP (IN of) (NP (NNP highways) (NNP and))) (: ...)))      246
+
+Each line has three parts: source sequence, target-side tree and syntactic code.
+
 ## Merge the codes with target sentences in the training set
-Run
+
+Finally, we merge the generated codes with target sentences in the training set.
 ```
 python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --make_target
 ```
 
+If you go to `mydata/tree2code_codebits-8_dtok-wmt14_limit_datapoints-100000_limit_tree_depth-2.tgt`, you can find the file like this:
+
+> \<c247\> \<eoc\> ▁Construction ▁and ▁repair ▁of ▁highway s ▁and ... 
+
+
 ## Todos
 
-- [ ] put nmtlab on pypi
+- [x] put nmtlab on pypi
+- [ ] Discuss the code inbalance issue
 - [ ] add the script for training NMT models and sample diverse translations
