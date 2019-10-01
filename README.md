@@ -115,7 +115,7 @@ The script will train the model for 20 epochs, and you will see the increasing p
 Once we obtain the syntactic coding model, we need to get the syntactic codes for all training samples. Just run this command:
 
 ```
-python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --export_code
+python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --export_code
 ```
 
 It's going to take time as the dataset is large. Once it's done, if you go to `mydata/tree2code_codebits-8_dtok-wmt14_limit_datapoints-100000_limit_tree_depth-2.codes`,
@@ -129,7 +129,7 @@ Each line has three parts: source sequence, target-side tree and syntactic code.
 
 Finally, we merge the generated codes with target sentences in the training set.
 ```
-python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --make_target
+python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --make_target
 ```
 
 If you go to `mydata/tree2code_codebits-8_dtok-wmt14_limit_datapoints-100000_limit_tree_depth-2.tgt`, you can find the file like this:
