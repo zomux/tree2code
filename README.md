@@ -80,7 +80,7 @@ tar xzvf tree2code_wmt14.tgz
 python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --train
 ```
 
--2. (Multi-GPU) Run this command if you have 4 GPUs:
+-2. (Multi-GPU) Run this command if you have 8 GPUs:
 ```
 horovodrun -np 8 -H localhost:8 python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --train
 ```
@@ -106,7 +106,7 @@ The script will train the model for 20 epochs, and you will see the increasing p
 ...
 [nmtlab] Ending epoch 1, spent 5 minutes
 ...
-[valid] loss=0.50 label_accuracy=0.85 * (epoch 7, step 4832)
+[valid] loss=0.47 label_accuracy=0.86 * (epoch 12, step 14687)
 ...
 ```
 
