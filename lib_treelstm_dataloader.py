@@ -127,7 +127,8 @@ class BilingualTreeDataLoader(Dataset):
         assert len(src_lines) == len(cfg_lines)
         print("start to batch {} samples".format(len(src_lines)))
         treegen = TreeDataGenerator(self._cfg_path, self._treelstm_vocab_path,
-                                    part_index=0, part_num=1)
+                                    part_index=0, part_num=1,
+                                    limit_tree_depth=self._limit_tree_depth)
         batch_samples = []
         batch_src_lines = []
         for src_line, cfg_line in zip(src_lines, cfg_lines):

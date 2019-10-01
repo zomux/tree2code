@@ -37,6 +37,7 @@ ap.add_argument("--opt_without_source", action="store_true")
 ap.add_argument("--opt_codebits", type=int, default=0)
 ap.add_argument("--opt_limit_tree_depth", type=int, default=0)
 ap.add_argument("--opt_limit_datapoints", type=int, default=-1)
+ap.add_argument("--opt_load_pretrain", action="store_true")
 ap.add_argument("--model_path",
                 default="{}/tree2code.pt".format(DATA_ROOT))
 ap.add_argument("--result_path",
@@ -62,7 +63,8 @@ else:
     part_index = 0
     part_num = 1
     gpu_num = 1
-print("Running on {} GPUs".format(gpu_num))
+if is_root_node():
+    print("Running on {} GPUs".format(gpu_num))
 
 # Define dataset
 dataset = BilingualTreeDataLoader(
@@ -75,7 +77,8 @@ dataset = BilingualTreeDataLoader(
     part_index=part_index,
     part_num=part_num,
     max_tokens=60,
-    limit_datapoints=OPTS.limit_datapoints
+    limit_datapoints=OPTS.limit_datapoints,
+    limit_tree_depth=OPTS.limit_tree_depth
 )
 
 # Load the tree autoencoder onto GPU
@@ -97,9 +100,10 @@ if OPTS.train or OPTS.all:
         n_valid_per_epoch=n_valid_per_epoch,
         criteria="loss",
     )
-    if OPTS.w_pretrain:
+    if OPTS.load_pretrain:
         import re
         pretrain_path = re.sub(r"_codebits-\d", "", OPTS.model_path)
+        pretrain_path = pretrain_path.replace("_load_pretrain", "")
         if is_root_node():
             print("loading pretrained model in ", pretrain_path)
         autoencoder.load_pretrain(pretrain_path)

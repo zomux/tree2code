@@ -2,7 +2,16 @@ tree2code: Learning Discrete Syntactic Codes for Structural Diverse Translation
 ===
 
 This code implements the syntactic code learning model in paper "Generating Diverse Translation with Sentence Codes" published in ACL 2019.
-PDF of the paper can be acquired here: https://www.aclweb.org/anthology/P19-1177/ .
+PDF of the paper can be acquired here: https://www.aclweb.org/anthology/P19-1177/ . Citation:
+
+```
+@inproceedings{Shu2019GeneratingDT,
+  title={Generating Diverse Translations with Sentence Codes},
+  author={Raphael Shu and Hideki Nakayama and Kyunghyun Cho},
+  booktitle={ACL},
+  year={2019}
+}
+```
 
 The motivation of learning syntactic codes is to extract the syntactic structure of a sentence, and encode the structural choice into discrete codes.
 Then if we merge the syntactic codes with the target tokens and train a neural machine translation model to predict both of them, the code can effectively condition of the generation of the whole translation.
@@ -74,6 +83,16 @@ python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_l
 horovodrun -np 4 -H localhost:4 python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_limit_datapoints 10000 --train
 ```
 
+There are some options you can use for training the model.
+
+``--opt_codebits`` specifies the number of bits for each discrete code, 5 bits means 32 categories
+
+``--opt_limit_tree_depth`` limit the depth of a parse tree to consider. The model will consider up to three tree layers when we limit the depth to 2.
+You can increase the depth and monitor the `label_accuracy` to ensure the reconstruction accuracy is not too low.
+
+``--opt_limit_datapoints`` limit the number of training datapoints to be used on each GPU as training on the whole dataset is time-consuming.
+In our experiments, we train the model with 8 GPUs, we limit the training datapoints to 100k on each GPU, which results in an effective training dataset of 800k samples.
+
 ## Export the syntactic codes for all training samples
 
 Run
@@ -87,3 +106,7 @@ Run
 python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_limit_datapoints 10000 --make_target
 ```
 
+## Todos
+
+- [ ] put nmtlab on pypi
+- [ ] add the script for training NMT models and sample diverse translations
