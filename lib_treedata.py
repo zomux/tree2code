@@ -17,14 +17,16 @@ import _pickle as pickle
 
 PAD = -1
 UNK = 3
-BATCH_SIZE = 100000
 
 
 class TreeDataGenerator(object):
 
     def __init__(self, cfg_path, treelstm_vocab_path, part_index=0, part_num=1, cache_path=None, limit_datapoints=None,
                  limit_tree_depth=0):
-        self._cache_path = "{}.{}in{}".format(cache_path, part_index, part_num)
+        if cache_path is not None:
+            self._cache_path = "{}.{}in{}".format(cache_path, part_index, part_num)
+        else:
+            self._cache_path = None
         self._cfg_path = cfg_path
         self._cfg_lines = None
         self._part_index = part_index
@@ -33,8 +35,6 @@ class TreeDataGenerator(object):
         self._limit_tree_depth = limit_tree_depth
         self._vocab = Vocab(treelstm_vocab_path, picklable=True)
         self._trees = []
-        if OPTS.tinydata or OPTS.smalldata:
-            self._cache_path = None
 
     def load(self):
         if not OPTS.smalldata and not OPTS.tinydata and self._cache_path is not None and os.path.exists(self._cache_path):

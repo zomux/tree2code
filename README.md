@@ -36,7 +36,9 @@ The TreeLSTM part may looks complicated, but fortunately it can be efficiently i
 
 ## Install Package Dependency
 
-The code depends on PyTorch, **dgl** for TreeLSTM, **nmtlab** for Transformer encoder and **horovod** for multi-gpu training.
+The code depends on PyTorch, **dgl** for TreeLSTM,
+**nltk** and **networkx** for tree loading,
+ **nmtlab** for Transformer encoder and **horovod** for multi-gpu training.
 
 We recommend installing with conda.
 
@@ -46,7 +48,7 @@ We recommend installing with conda.
 
 3. (Only for multi-gpu training) Install horovod following https://github.com/horovod/horovod#install
 
-4. Run `pip install nmtlab`
+4. Run `pip install nltk networkx nmtlab`
 
 5. Clone this github repo, run 
 ```
@@ -75,35 +77,35 @@ tar xzvf tree2code_wmt14.tgz
 
 -2. (Single GPU) Run this command:
 ```
-python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_limit_datapoints 10000 --train
+python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --train
 ```
 
 -2. (Multi-GPU) Run this command if you have 4 GPUs:
 ```
-horovodrun -np 4 -H localhost:4 python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_limit_datapoints 10000 --train
+horovodrun -np 4 -H localhost:4 python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --train
 ```
 
 There are some options you can use for training the model.
 
-``--opt_codebits`` specifies the number of bits for each discrete code, 5 bits means 32 categories
+``--opt_codebits`` specifies the number of bits for each discrete code, 8 bits means 256 categories
 
 ``--opt_limit_tree_depth`` limit the depth of a parse tree to consider. The model will consider up to three tree layers when we limit the depth to 2.
 You can increase the depth and monitor the `label_accuracy` to ensure the reconstruction accuracy is not too low.
 
 ``--opt_limit_datapoints`` limit the number of training datapoints to be used on each GPU as training on the whole dataset is time-consuming.
-In our experiments, we train the model with 8 GPUs, we limit the training datapoints to 100k on each GPU, which results in an effective training dataset of 800k samples.
+In our experiments, we train the model with 8 GPUs, and limit the training datapoints to 100k on each GPU, which results in an effective training dataset of 800k samples.
 
 ## Export the syntactic codes for all training samples
 
 Run
 ```
-python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_limit_datapoints 10000 --export_code
+python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --export_code
 ```
 
 ## Merge the codes with target sentences in the training set
 Run
 ```
-python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_limit_datapoints 10000 --make_target
+python run.py --opt_dtok wmt14 --opt_codebits 5 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --make_target
 ```
 
 ## Todos

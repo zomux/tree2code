@@ -1,4 +1,5 @@
 nmtlab
 dgl
 torch
-horovod
+networkx
+nltk
