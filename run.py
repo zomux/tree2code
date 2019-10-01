@@ -131,13 +131,10 @@ if OPTS.export_code or OPTS.all:
                 src_lines, cfg_lines, src_batch, enc_tree, dec_tree = batch
                 out = autoencoder(src_batch.cuda(), enc_tree, dec_tree, return_code=True)
                 codes = out["codes"]
-                codes_2nd = out["codes_2nd"] if "codes_2nd" in out else None
                 for i in range(len(src_lines)):
                     src = src_lines[i]
                     cfg = cfg_lines[i]
                     code = str(codes[i].int().cpu().numpy())
-                    if codes_2nd is not None:
-                        code = "{} {}".format(code, codes_2nd[i].int().cpu().numpy())
                     outf.write("{}\t{}\t{}\n".format(src, cfg, code))
                 outf.flush()
                 c += len(src_lines)
@@ -160,9 +157,9 @@ if OPTS.make_target or OPTS.all:
             code_str = " ".join(["<c{}>".format(int(c) + 1) for c in code.split()])
             export_map["{}\t{}".format(src, cfg)] = code_str
         with open(out_path, "w") as outf:
-            src_path = dataset_paths["train_src_path"]
-            tgt_path = dataset_paths["train_tgt_path"]
-            cfg_path = dataset_paths["train_cfg_path"]
+            src_path = dataset_paths["train_src_corpus"]
+            tgt_path = dataset_paths["train_tgt_corpus"]
+            cfg_path = dataset_paths["train_cfg_corpus"]
             for src, tgt, cfg in zip(open(src_path), open(tgt_path), open(cfg_path)):
                 key = "{}\t{}".format(src.strip(), cfg.strip())
                 if key in export_map:
