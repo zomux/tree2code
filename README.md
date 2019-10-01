@@ -42,16 +42,50 @@ The code depends on PyTorch, **dgl** for TreeLSTM,
 
 We recommend installing with conda.
 
-1. Install pytorch following https://pytorch.org/get-started/locally/
+-1. (If you don't have conda) Download and Install Miniconda for Python 3
 
-2. Install dgl following https://www.dgl.ai/pages/start.html
-
-3. (Only for multi-gpu training) Install horovod following https://github.com/horovod/horovod#install
-
-4. Run `pip install nltk networkx nmtlab`
-
-5. Clone this github repo, run 
 ```
+mkdir ~/apps; cd ~/apps
+wget  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+```
+
+Reload the bash/zsh and run `python` to check it's using the python in Miniconda.
+
+-2. Install pytorch following https://pytorch.org/get-started/locally/
+
+-3. Install dgl following https://www.dgl.ai/pages/start.html
+
+-4. (Only for multi-gpu training) Install horovod following https://github.com/horovod/horovod#install
+
+```
+mkdir ~/apps; cd ~/apps
+wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.1.tar.gz
+tar xzvf openmpi-4.0.1.tar.gz
+cd openmpi-4.0.1
+# Suppose you have Miniconda3 in your home directory
+./configure --prefix=$HOME/miniconda3 --disable-mca-dso
+make -j 8
+make install
+```
+
+Check whether the openmpi is correctly installed by running `mpirun`. Then install horovod with:
+
+```
+conda install -y gxx_linux-64
+# If you don't have NCCL
+pip install horovod
+# If you have NCCL in /usr/local/nccl
+HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_NCCL_HOME=/usr/local/nccl pip install horovod
+```
+
+Check horovod by running
+
+-5. Run `pip install nltk networkx nmtlab`
+
+-6. Clone this github repo, run 
+```
+cd ~/
 git clone https://github.com/zomux/tree2code
 cd tree2code
 ```
@@ -136,6 +170,7 @@ If you go to `mydata/tree2code_codebits-8_dtok-wmt14_limit_datapoints-100000_lim
 
 > \<c247\> \<eoc\> ▁Construction ▁and ▁repair ▁of ▁highway s ▁and ... 
 
+## Result files
 
 ## Todos
 
