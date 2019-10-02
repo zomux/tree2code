@@ -97,7 +97,7 @@ class TreeAutoEncoder(nn.Module):
         root_mask = enc_tree.ndata["mask"].float().cuda()
         # root_idx = torch.arange(root_mask.shape[0])[root_mask > 0].cuda()
         root_h = self.dropout(enc_tree.ndata.pop("h")) * root_mask.unsqueeze(-1)
-        orig_h = root_h[root_mask > 0]
+        orig_h = root_h.clone()[root_mask > 0]
         partial_h = orig_h
         if self._without_source:
             partial_h += encoder_states

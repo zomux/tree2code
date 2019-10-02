@@ -79,7 +79,7 @@ pip install horovod
 HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_NCCL_HOME=/usr/local/nccl pip install horovod
 ```
 
-Check horovod by running
+Check horovod by running `horovodrun`.
 
 -5. Run `pip install nltk networkx torchtext nmtlab`
 
@@ -92,7 +92,7 @@ cd tree2code
 
 ## Download pre-processed WMT14 dataset with parsed CFG trees
 
--1. Create `mydata` folder, run
+-1. Create `mydata` folder if it's not there
 ```
 mkdir mydata
 cd mydata
