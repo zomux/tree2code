@@ -92,6 +92,10 @@ cd tree2code
 
 ## Download pre-processed WMT14 dataset with parsed CFG trees
 
+We parse the target-side CFG trees with Stanford parser and segment the words using sentencepiece.
+As parsing the whole dataset is extremely time-consuming, we recommend you to just download the pre-processed dataset instead of parsing it by your self.
+
+
 -1. Create `mydata` folder if it's not there
 ```
 mkdir mydata
