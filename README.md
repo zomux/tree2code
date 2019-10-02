@@ -109,6 +109,11 @@ After download, uncompress the dataset in side `mydata` folder.
 tar xzvf tree2code_wmt14.tgz
 ```
 
+Note: The CFG trees are parsed by runing this command:
+> java -mx300g -cp "/your/path/stanford-parser-full-2018-10-17/*" edu.stanford.nlp.parser.lexparser.LexicalizedParser 
+-maxLength 70 -nthreads 36 -sentences newline -retainTMPSubcategories -outputFormat 'oneline' 
+edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz corpus.en > corpus.cfg.online
+
 ## Train the model
 
 -1. Go back to `tree2code` folder
