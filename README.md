@@ -25,7 +25,9 @@ John odia la escuela. -> <c15> John hates school.
 So, how can we encode syntax into discrete codes? Well, we combine the ideas of TreeLSTM autoencoder and discretization bottleneck.
 The TreeLSTM autoencoder creates a representation of a parse tree, and the bottleneck quantize the vector representation into discrete numbers, which is quite straight-forward.
 
-<img src="https://i.imgur.com/DjrFF70.png" width="600px"/>
+<p align="center">
+<img src="https://i.imgur.com/DjrFF70.png" width="600px" />
+</p>
 
 Now, this is the model, it has a pretty clear architecture of TreeLSTM-based autoencoder.
 The only thing you may be surprised is that we also feed the context of the source sequence into the autoencoder. Why we do this?
