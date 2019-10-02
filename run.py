@@ -9,6 +9,7 @@ from torch import optim
 from argparse import ArgumentParser
 sys.path.append(".")
 
+import importlib
 import torch
 from nmtlab import MTTrainer
 from nmtlab.utils import OPTS
@@ -52,7 +53,8 @@ dataset_paths = get_dataset_paths(DATA_ROOT, OPTS.dtok)
 
 # Using horovod for training, automatically occupy all GPUs
 # Determine the local rank
-if torch.cuda.is_available():
+horovod_installed = importlib.util.find_spec("horovod") is not None
+if torch.cuda.is_available() and horovod_installed:
     import horovod.torch as hvd
     hvd.init()
     torch.cuda.set_device(hvd.local_rank())
