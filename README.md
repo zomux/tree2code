@@ -192,5 +192,6 @@ The file `tree2code_codebits-8_dtok-wmt14_limit_datapoints-100000_limit_tree_dep
 ## Todos
 
 - [x] put nmtlab on pypi
+- [ ] Add more comments in the code
 - [ ] Discuss the code inbalance issue
 - [ ] add the script for training NMT models and sample diverse translations
