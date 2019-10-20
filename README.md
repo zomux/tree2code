@@ -122,7 +122,7 @@ edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz corpus.en > corpus.cfg.onli
 
 -2. (Single GPU) Run this command:
 ```
-python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --train
+python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_limit_datapoints 800000 --train
 ```
 
 -2. (Multi-GPU) Run this command if you have 8 GPUs:
