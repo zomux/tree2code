@@ -122,7 +122,7 @@ edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz corpus.en > corpus.cfg.onli
 
 -2. (Single GPU) Run this command:
 ```
-python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_limit_datapoints 100000 --train
+python run.py --opt_dtok wmt14 --opt_codebits 8 --opt_limit_tree_depth 2 --opt_limit_datapoints 800000 --train
 ```
 
 -2. (Multi-GPU) Run this command if you have 8 GPUs:
@@ -157,6 +157,8 @@ The script will train the model for 20 epochs, and you will see the increasing p
 
 ## Export the syntactic codes for all training samples
 
+> Note: For single GPU, please change `--opt_limit_datapoints` to 800000
+
 Once we obtain the syntactic coding model, we need to get the syntactic codes for all training samples. Just run this command:
 
 ```
@@ -171,6 +173,8 @@ you will see things like this:
 Each line has three parts: source sequence, target-side tree and syntactic code.
 
 ## Merge the codes with target sentences in the training set
+
+> Note: For single GPU, please change `--opt_limit_datapoints` to 800000
 
 Finally, we merge the generated codes with target sentences in the training set.
 ```
