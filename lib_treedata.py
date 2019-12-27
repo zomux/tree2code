@@ -49,7 +49,7 @@ class TreeDataGenerator(object):
         print("building trees part {} ...".format(self._part_index))
         self._trees = self._build_batch_trees()
         if False and self._cache_path is not None:
-            print("caching trees...")
+            print("caching trees part {}...".format(self._part_index))
             pickle.dump(self._trees, open(self._cache_path, "wb"))
 
     def _parse_cfg_line(self, cfg_line):
